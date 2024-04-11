@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+@font-face {
+  font-family: "Tahoma";
+  src: url("/fonts/Tahoma-Regular-font.woff") format("woff");
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Tahoma" !important;
+}
