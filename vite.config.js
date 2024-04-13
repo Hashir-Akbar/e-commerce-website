@@ -11,6 +11,7 @@ export default defineConfig({
         product_catalog: resolve(__dirname, "pages/product_catalog.html"),
         reviews: resolve(__dirname, "pages/reviews.html"),
         buying_guide: resolve(__dirname, "pages/buying_guide.html"),
+        add_to_cart: resolve(__dirname, "pages/add_to_cart.html"),
       },
     },
   },
