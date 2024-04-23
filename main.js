@@ -36,14 +36,42 @@ const products = [
     price: 249,
     discountedPrice: 499,
     rating: 5,
-  }
+  },
+  {
+    id: 4,
+    imageUrl: "/products/4.webp",
+    discount: "19% OFF",
+    title: "Visionking 70mm/300mm 150X Terrestrial",
+    price: 239,
+    discountedPrice: 199,
+    rating: 5,
+  },
+  {
+    id: 5,
+    imageUrl: "/products/5.webp",
+    discount: "15% OFF",
+    title: "Astronomical telescope  for moon and planets",
+    price: 339,
+    discountedPrice: 149,
+    rating: 5,
+  },
+  {
+    id: 6,
+    imageUrl: "/products/7.webp",
+    discount: "15% OFF",
+    title: "Terrestrial, Astronomical Refractor Telescope",
+    price: 234,
+    discountedPrice: 170,
+    rating: 5,
+  },
 ];
+
 // Get the container element
 const featuredProductsContainer = document.querySelector(".featured-products");
 const ProductsContainer = document.querySelector(".products-container");
 // Loop through the products array and generate HTML for each product
-console.log("ProductsContainer",ProductsContainer)
-products.forEach((product,i) => {
+console.log("ProductsContainer", ProductsContainer);
+products.forEach((product, i) => {
   // Create product elements
   const productElement = document.createElement("div");
   productElement.classList.add(
@@ -108,8 +136,7 @@ products.forEach((product,i) => {
     featuredProductsContainer &&
       featuredProductsContainer.appendChild(productElement);
   }
-  ProductsContainer &&
-  ProductsContainer.appendChild(productElement);
+  ProductsContainer && ProductsContainer.appendChild(productElement);
 });
 
 // add to cart
@@ -273,7 +300,7 @@ cart.forEach((item) => {
           const initialSelectedValue = selectElement.value; // Get the initial selected value
           if (initialSelectedValue < 9) {
             const nextIndex = parseInt(initialSelectedValue, 10); // Calculate the index of the next option
-          
+
             // Check if the next index is within valid range (0 to options.length - 1)
             if (nextIndex >= 0 && nextIndex < selectElement.options.length) {
               selectElement.selectedIndex = nextIndex;
@@ -338,7 +365,7 @@ cart.forEach((item) => {
       const selectedProduct = products.find(
         (item) => parseInt(item.id) === parseInt(target.id)
       );
-console.log("selectedProduct",target)
+      console.log("selectedProduct", target);
       productId = productId + 1;
       const items = [selectedProduct];
       items.forEach((product) => {
@@ -391,8 +418,8 @@ console.log("selectedProduct",target)
       if (typeof quantity === "undefined") {
         var actual = Number(cartCountItems[0].innerText) + 1;
         var next = actual + 1;
-        
-        console.log("quantity",actual,next)
+
+        console.log("quantity", actual, next);
         if (emptyCart) {
           cartCountItems[0].innerText = actual;
           cartCountItems[1].innerText = next;

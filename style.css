@@ -3954,3 +3954,6 @@ h5,
 h6 {
   font-family: "Tahoma" !important;
 }
+.truncate {
+  max-width: 177px;
+}
