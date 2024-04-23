@@ -36,13 +36,14 @@ const products = [
     price: 249,
     discountedPrice: 499,
     rating: 5,
-  },
+  }
 ];
 // Get the container element
 const featuredProductsContainer = document.querySelector(".featured-products");
-
+const ProductsContainer = document.querySelector(".products-container");
 // Loop through the products array and generate HTML for each product
-products.forEach((product) => {
+console.log("ProductsContainer",ProductsContainer)
+products.forEach((product,i) => {
   // Create product elements
   const productElement = document.createElement("div");
   productElement.classList.add(
@@ -102,10 +103,13 @@ products.forEach((product) => {
       </a>
     </div>
   `;
-
   // Append the product element to the container
-  featuredProductsContainer &&
-    featuredProductsContainer.appendChild(productElement);
+  if (i > 3) {
+    featuredProductsContainer &&
+      featuredProductsContainer.appendChild(productElement);
+  }
+  ProductsContainer &&
+  ProductsContainer.appendChild(productElement);
 });
 
 // add to cart
@@ -334,7 +338,7 @@ cart.forEach((item) => {
       const selectedProduct = products.find(
         (item) => parseInt(item.id) === parseInt(target.id)
       );
-
+console.log("selectedProduct",target)
       productId = productId + 1;
       const items = [selectedProduct];
       items.forEach((product) => {
