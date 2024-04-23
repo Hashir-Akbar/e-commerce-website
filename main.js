@@ -104,7 +104,7 @@ products.forEach((product,i) => {
     </div>
   `;
   // Append the product element to the container
-  if (i > 3) {
+  if (i < 3) {
     featuredProductsContainer &&
       featuredProductsContainer.appendChild(productElement);
   }
