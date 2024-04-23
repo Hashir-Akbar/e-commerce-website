@@ -91,9 +91,9 @@ products.forEach((product) => {
         </div>
       </div>
       <a href="${product.id}">
-        <div onclick="showToast(event)" data-price="${
-          product.price
-        }" id="${product.id}" class=" cd-add-to-cart js-cd-add-to-cart flex cursor-pointer items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+        <div onclick="showToast(event)" data-price="${product.price}" id="${
+    product.id
+  }" class=" cd-add-to-cart js-cd-add-to-cart flex cursor-pointer items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
           <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
@@ -173,7 +173,7 @@ cart.forEach((item) => {
 (function () {
   // Add to Cart Interaction - by CodyHouse.co
   var cart = document.getElementsByClassName("js-cd-cart");
-  console.log("cart",cart)
+  console.log("cart", cart);
   if (cart.length > 0) {
     var cartAddBtns = document.getElementsByClassName("js-cd-add-to-cart"),
       cartBody = cart[0].getElementsByClassName("cd-cart__body")[0],
@@ -252,13 +252,37 @@ cart.forEach((item) => {
       var cartIsEmpty = Util.hasClass(cart[0], "cd-cart--empty");
       //update cart product list
       const cartLists = cartBody.getElementsByTagName("ul")[0];
-      
-      const productElements = cartLists.querySelectorAll('li[productid]');
-      
-      const productIds = Array.from(productElements).map(el => el.getAttribute('productid'));
-      const existingProduct = productIds.find((item)=>parseInt(item) ===  parseInt(this.id))
+      console.log("cartLists", cartLists);
+      const productElements = cartLists.querySelectorAll("li[productid]");
+
+      const productIds = Array.from(productElements).map((el) =>
+        el.getAttribute("productid")
+      );
+      const existingProduct = productIds.find(
+        (item) => parseInt(item) === parseInt(this.id)
+      );
       // const existingProduct = productIds.find((item)=>parseInt(item) ===  parseInt(target.id))
-      if (!existingProduct) {
+      if (existingProduct) {
+        const selectElement = document.getElementById(`cd-product-${this.id}`);
+
+        if (selectElement) {
+          const initialSelectedValue = selectElement.value; // Get the initial selected value
+          if (initialSelectedValue < 9) {
+            const nextIndex = parseInt(initialSelectedValue, 10); // Calculate the index of the next option
+          
+            // Check if the next index is within valid range (0 to options.length - 1)
+            if (nextIndex >= 0 && nextIndex < selectElement.options.length) {
+              selectElement.selectedIndex = nextIndex;
+            } else {
+              // Handle the case where there's no next option (optional)
+              console.log("No next option available");
+            }
+            updateCartCount(cartIsEmpty);
+            //update total price
+            updateCartTotal(this.getAttribute("data-price"), true);
+          }
+        }
+      } else {
         addProduct(this);
         //update number of items
         updateCartCount(cartIsEmpty);
@@ -299,25 +323,26 @@ cart.forEach((item) => {
       // you should insert an item with the selected product info
       // replace productId, productName, price and url with your real product info
       // you should also check if the product was already in the cart -> if it is, just update the quantity
+
       const cartLists = cartBody.getElementsByTagName("ul")[0];
-      
-      const productElements = cartLists.querySelectorAll('li[productid]');
-      
-      const productIds = Array.from(productElements).map(el => el.getAttribute('productid'));
-      const selectedProduct = products.find((item)=>parseInt(item.id) === parseInt(target.id))
-      
-      
-        productId = productId + 1;
-        const items = [selectedProduct]
-        items.forEach((product) => {
-          var productAdded = `<li productId="${target.id}" class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="${product.imageUrl}" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">Product Name</a></h3><span class="cd-cart__price">$${product.price}</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-' +
+
+      const productElements = cartLists.querySelectorAll("li[productid]");
+
+      const productIds = Array.from(productElements).map((el) =>
+        el.getAttribute("productid")
+      );
+      const selectedProduct = products.find(
+        (item) => parseInt(item.id) === parseInt(target.id)
+      );
+
+      productId = productId + 1;
+      const items = [selectedProduct];
+      items.forEach((product) => {
+        var productAdded = `<li productId="${target.id}" class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="${product.imageUrl}" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">${selectedProduct.title}</a></h3><span class="cd-cart__price">$${product.price}</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-' +
           ${product.id} +
-          '">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-' +
-          productId +
-          '" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>`;
-          cartList.insertAdjacentHTML("beforeend", productAdded);
-        });
-      
+          '">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-${product.id}" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>`;
+        cartList.insertAdjacentHTML("beforeend", productAdded);
+      });
     }
 
     function removeProduct(product) {
@@ -362,7 +387,8 @@ cart.forEach((item) => {
       if (typeof quantity === "undefined") {
         var actual = Number(cartCountItems[0].innerText) + 1;
         var next = actual + 1;
-
+        
+        console.log("quantity",actual,next)
         if (emptyCart) {
           cartCountItems[0].innerText = actual;
           cartCountItems[1].innerText = next;
