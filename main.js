@@ -69,6 +69,7 @@ const products = [
 // Get the container element
 const featuredProductsContainer = document.querySelector(".featured-products");
 const ProductsContainer = document.querySelector(".products-container");
+const LastProductsContainer = document.querySelector(".end-products-container");
 // Loop through the products array and generate HTML for each product
 console.log("ProductsContainer", ProductsContainer);
 products.forEach((product, i) => {
@@ -136,7 +137,14 @@ products.forEach((product, i) => {
     featuredProductsContainer &&
       featuredProductsContainer.appendChild(productElement);
   }
-  ProductsContainer && ProductsContainer.appendChild(productElement);
+  if (i > 2) {
+    console.log(i + 1 === product.length,i + 1,products.length,"i + 1 === product.length")
+    if (i + 1 === products.length) {
+      LastProductsContainer && LastProductsContainer.appendChild(productElement);
+    } else {
+      ProductsContainer && ProductsContainer.appendChild(productElement);
+    }
+  }
 });
 
 // add to cart
@@ -279,6 +287,7 @@ cart.forEach((item) => {
 
     function addToCart(event) {
       event.preventDefault();
+      setTimeout(()=> {
       if (animatingQuantity) return;
       var cartIsEmpty = Util.hasClass(cart[0], "cd-cart--empty");
       //update cart product list
@@ -322,6 +331,7 @@ cart.forEach((item) => {
         //show cart
         Util.removeClass(cart[0], "cd-cart--empty");
       }
+    },500)
     }
 
     function toggleCart(bool) {
@@ -415,11 +425,15 @@ cart.forEach((item) => {
     }
 
     function updateCartCount(emptyCart, quantity) {
+      
+  //     const cartLists = cartBody.getElementsByTagName("ul")[0];
+
+  //     const productElements = cartLists.querySelectorAll("li[productid]");
+  //  console.log("productElements",cartLists)
       if (typeof quantity === "undefined") {
         var actual = Number(cartCountItems[0].innerText) + 1;
         var next = actual + 1;
 
-        console.log("quantity", actual, next);
         if (emptyCart) {
           cartCountItems[0].innerText = actual;
           cartCountItems[1].innerText = next;
