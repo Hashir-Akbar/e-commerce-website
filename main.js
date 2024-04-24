@@ -42,8 +42,8 @@ const products = [
     imageUrl: "/products/4.webp",
     discount: "19% OFF",
     title: "Visionking 70mm/300mm 150X Terrestrial",
-    price: 239,
-    discountedPrice: 199,
+    price: 139,
+    discountedPrice: 299,
     rating: 5,
   },
   {
@@ -51,8 +51,8 @@ const products = [
     imageUrl: "/products/5.webp",
     discount: "15% OFF",
     title: "Astronomical telescope  for moon and planets",
-    price: 339,
-    discountedPrice: 149,
+    price: 149,
+    discountedPrice: 270,
     rating: 5,
   },
   {
@@ -61,7 +61,43 @@ const products = [
     discount: "15% OFF",
     title: "Terrestrial, Astronomical Refractor Telescope",
     price: 234,
-    discountedPrice: 170,
+    discountedPrice: 370,
+    rating: 5,
+  },
+  {
+    id: 7,
+    imageUrl: "/products/8.webp",
+    discount: "15% OFF",
+    title: "Astronomical DIY Telescope 50600",
+    price: 214,
+    discountedPrice: 350,
+    rating: 5,
+  },
+  {
+    id: 8,
+    imageUrl: "/products/9.webp",
+    discount: "15% OFF",
+    title: "DIY Astronomical Telescope Kit 2.0",
+    price: 214,
+    discountedPrice: 350,
+    rating: 5,
+  },
+  {
+    id: 9,
+    imageUrl: "/products/10.webp",
+    discount: "15% OFF",
+    title: "Slokey 50080 SkyWays Astronomical Telescope",
+    price: 214,
+    discountedPrice: 350,
+    rating: 5,
+  },
+  {
+    id: 10,
+    imageUrl: "https://www.thoughtco.com/thmb/6A-nCc0vxM13Ggt2cOH7v43LhxM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-960773850-85f50747071140b7bdc10eaf65fd55d8.jpg",
+    discount: "15% OFF",
+    title: "Catadioptric Telescope",
+    price: 214,
+    discountedPrice: 350,
     rating: 5,
   },
 ];
@@ -138,9 +174,15 @@ products.forEach((product, i) => {
       featuredProductsContainer.appendChild(productElement);
   }
   if (i > 2) {
-    console.log(i + 1 === product.length,i + 1,products.length,"i + 1 === product.length")
+    console.log(
+      i + 1 === product.length,
+      i + 1,
+      products.length,
+      "i + 1 === product.length"
+    );
     if (i + 1 === products.length) {
-      LastProductsContainer && LastProductsContainer.appendChild(productElement);
+      LastProductsContainer &&
+        LastProductsContainer.appendChild(productElement);
     } else {
       ProductsContainer && ProductsContainer.appendChild(productElement);
     }
@@ -287,51 +329,53 @@ cart.forEach((item) => {
 
     function addToCart(event) {
       event.preventDefault();
-      setTimeout(()=> {
-      if (animatingQuantity) return;
-      var cartIsEmpty = Util.hasClass(cart[0], "cd-cart--empty");
-      //update cart product list
-      const cartLists = cartBody.getElementsByTagName("ul")[0];
-      console.log("cartLists", cartLists);
-      const productElements = cartLists.querySelectorAll("li[productid]");
+      setTimeout(() => {
+        if (animatingQuantity) return;
+        var cartIsEmpty = Util.hasClass(cart[0], "cd-cart--empty");
+        //update cart product list
+        const cartLists = cartBody.getElementsByTagName("ul")[0];
+        console.log("cartLists", cartLists);
+        const productElements = cartLists.querySelectorAll("li[productid]");
 
-      const productIds = Array.from(productElements).map((el) =>
-        el.getAttribute("productid")
-      );
-      const existingProduct = productIds.find(
-        (item) => parseInt(item) === parseInt(this.id)
-      );
-      // const existingProduct = productIds.find((item)=>parseInt(item) ===  parseInt(target.id))
-      if (existingProduct) {
-        const selectElement = document.getElementById(`cd-product-${this.id}`);
+        const productIds = Array.from(productElements).map((el) =>
+          el.getAttribute("productid")
+        );
+        const existingProduct = productIds.find(
+          (item) => parseInt(item) === parseInt(this.id)
+        );
+        // const existingProduct = productIds.find((item)=>parseInt(item) ===  parseInt(target.id))
+        if (existingProduct) {
+          const selectElement = document.getElementById(
+            `cd-product-${this.id}`
+          );
 
-        if (selectElement) {
-          const initialSelectedValue = selectElement.value; // Get the initial selected value
-          if (initialSelectedValue < 9) {
-            const nextIndex = parseInt(initialSelectedValue, 10); // Calculate the index of the next option
+          if (selectElement) {
+            const initialSelectedValue = selectElement.value; // Get the initial selected value
+            if (initialSelectedValue < 9) {
+              const nextIndex = parseInt(initialSelectedValue, 10); // Calculate the index of the next option
 
-            // Check if the next index is within valid range (0 to options.length - 1)
-            if (nextIndex >= 0 && nextIndex < selectElement.options.length) {
-              selectElement.selectedIndex = nextIndex;
-            } else {
-              // Handle the case where there's no next option (optional)
-              console.log("No next option available");
+              // Check if the next index is within valid range (0 to options.length - 1)
+              if (nextIndex >= 0 && nextIndex < selectElement.options.length) {
+                selectElement.selectedIndex = nextIndex;
+              } else {
+                // Handle the case where there's no next option (optional)
+                console.log("No next option available");
+              }
+              updateCartCount(cartIsEmpty);
+              //update total price
+              updateCartTotal(this.getAttribute("data-price"), true);
             }
-            updateCartCount(cartIsEmpty);
-            //update total price
-            updateCartTotal(this.getAttribute("data-price"), true);
           }
+        } else {
+          addProduct(this);
+          //update number of items
+          updateCartCount(cartIsEmpty);
+          //update total price
+          updateCartTotal(this.getAttribute("data-price"), true);
+          //show cart
+          Util.removeClass(cart[0], "cd-cart--empty");
         }
-      } else {
-        addProduct(this);
-        //update number of items
-        updateCartCount(cartIsEmpty);
-        //update total price
-        updateCartTotal(this.getAttribute("data-price"), true);
-        //show cart
-        Util.removeClass(cart[0], "cd-cart--empty");
-      }
-    },500)
+      }, 500);
     }
 
     function toggleCart(bool) {
@@ -425,11 +469,10 @@ cart.forEach((item) => {
     }
 
     function updateCartCount(emptyCart, quantity) {
-      
-  //     const cartLists = cartBody.getElementsByTagName("ul")[0];
+      //     const cartLists = cartBody.getElementsByTagName("ul")[0];
 
-  //     const productElements = cartLists.querySelectorAll("li[productid]");
-  //  console.log("productElements",cartLists)
+      //     const productElements = cartLists.querySelectorAll("li[productid]");
+      //  console.log("productElements",cartLists)
       if (typeof quantity === "undefined") {
         var actual = Number(cartCountItems[0].innerText) + 1;
         var next = actual + 1;
